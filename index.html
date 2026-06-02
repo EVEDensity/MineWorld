@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="description" content="像素方块世界 - 3D像素风格方块世界探索游戏" />
+  <title>像素方块世界</title>
+  <link rel="stylesheet" href="/styles/main.css" />
+  <!-- 使用 importmap 引入 Three.js ES Module -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
+    }
+  }
+  </script>
+</head>
+<body>
+  <!-- 游戏渲染画布 -->
+  <canvas id="gameCanvas"></canvas>
+
+  <!-- 十字准星 -->
+  <div id="crosshair">+</div>
+
+  <!-- 当前选中方块名称提示 -->
+  <div id="selectedBlockName">草地</div>
+
+  <!-- 底部物品栏 -->
+  <div id="hotbar"></div>
+
+  <!-- 目标方块提示 -->
+  <div id="blockHighlight"></div>
+
+  <!-- 调试信息 -->
+  <div id="debugInfo"></div>
+
+  <!-- 右上角操作说明面板（桌面端常驻） -->
+  <div id="controlsPanel" class="desktop-only">
+    <div class="controls-trigger">?</div>
+    <div class="controls-body">
+      <div class="control-row"><span class="key">W A S D</span><span>移动</span></div>
+      <div class="control-row"><span class="key">鼠标</span><span>视角旋转</span></div>
+      <div class="control-row"><span class="key">左键</span><span>放置方块</span></div>
+      <div class="control-row"><span class="key">右键</span><span>破坏方块</span></div>
+      <div class="control-row"><span class="key">空格</span><span>跳跃</span></div>
+      <div class="control-row"><span class="key">1-6</span><span>选择方块</span></div>
+      <div class="control-row"><span class="key">滚轮</span><span>切换方块</span></div>
+      <div class="control-row"><span class="key">ESC</span><span>暂停</span></div>
+    </div>
+  </div>
+
+  <!-- 加载进度 -->
+  <div id="loadingBar">
+    <div class="loading-text">生成世界中...</div>
+    <div class="loading-progress"><div class="loading-fill" id="loadingFill"></div></div>
+  </div>
+
+  <!-- 暂停界面 -->
+  <div id="pauseScreen">
+    <div class="pause-text">暂停</div>
+    <div class="pause-hint">点击继续游戏</div>
+  </div>
+
+  <!-- 开始界面 -->
+  <div id="startScreen">
+    <div class="start-title">像素方块世界</div>
+    <div class="start-subtitle">VOXEL BLOCK WORLD</div>
+    <div class="start-hint">点击开始游戏</div>
+    <div class="controls-info desktop-only">
+      <h3>操作说明</h3>
+      <div class="control-row"><span class="key">W A S D</span><span>移动</span></div>
+      <div class="control-row"><span class="key">鼠标</span><span>视角旋转</span></div>
+      <div class="control-row"><span class="key">空格</span><span>跳跃</span></div>
+      <div class="control-row"><span class="key">左键</span><span>放置方块</span></div>
+      <div class="control-row"><span class="key">右键</span><span>破坏方块</span></div>
+      <div class="control-row"><span class="key">1-6</span><span>选择方块</span></div>
+      <div class="control-row"><span class="key">滚轮</span><span>切换方块</span></div>
+      <div class="control-row"><span class="key">ESC</span><span>暂停</span></div>
+      <div class="control-row"><span class="key">= / Ctrl+滚轮上</span><span>放大画面</span></div>
+      <div class="control-row"><span class="key">- / Ctrl+滚轮下</span><span>缩小画面</span></div>
+      <div class="control-row"><span class="key">0</span><span>重置视野</span></div>
+    </div>
+  </div>
+
+  <!-- 移动端触控 UI -->
+  <div id="mobileControls" style="display:none;">
+    <!-- 虚拟摇杆（左下角） -->
+    <div id="joystickZone">
+      <div id="joystickThumb"></div>
+    </div>
+    <!-- 右侧操作按钮 -->
+    <div id="actionButtons">
+      <button id="btnJump" class="action-btn">跳</button>
+      <button id="btnBreak" class="action-btn">拆</button>
+      <button id="btnPlace" class="action-btn">放</button>
+    </div>
+    <!-- 移动端方块选择栏 -->
+    <div id="mobileHotbar"></div>
+  </div>
+
+  <!-- 游戏主模块 -->
+  <script type="module" src="/js/game.js"></script>
+</body>
+</html>

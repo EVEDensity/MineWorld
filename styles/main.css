@@ -1,0 +1,586 @@
+/* ============================================
+   像素方块世界 - 游戏界面样式
+   ============================================ */
+
+/* 全局重置 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  font-family: 'Courier New', 'Consolas', monospace;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* 游戏画布 - 全屏 */
+#gameCanvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+/* 十字准星 */
+#crosshair {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: 24px;
+  font-weight: 200;
+  pointer-events: none;
+  z-index: 10;
+  text-shadow: 0 0 2px rgba(0,0,0,0.8);
+  opacity: 0.8;
+  display: none;
+}
+
+/* 物品栏 */
+#hotbar {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
+  gap: 4px;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 4px;
+  border-radius: 4px;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+}
+
+.hotbar-slot {
+  width: 52px;
+  height: 52px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.12s ease-out;
+}
+
+.hotbar-slot.selected {
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 14px rgba(255, 255, 255, 0.45), 0 0 3px rgba(255, 255, 255, 0.5);
+  transform: scale(1.08);
+  outline: 1px solid rgba(255, 255, 255, 0.3);
+  outline-offset: -2px;
+}
+
+.hotbar-slot .block-preview {
+  width: 36px;
+  height: 36px;
+  border-radius: 2px;
+  image-rendering: pixelated;
+}
+
+.hotbar-slot .slot-key {
+  position: absolute;
+  bottom: 1px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 13px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.8), 0 0 4px rgba(0,0,0,0.5);
+  letter-spacing: 0;
+  line-height: 1;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 2px 0 2px;
+  border-radius: 0 0 3px 3px;
+  pointer-events: none;
+}
+
+/* 当前选中方块名称 - 热键栏上方 */
+#selectedBlockName {
+  position: fixed;
+  bottom: 88px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  font-size: 15px;
+  font-weight: bold;
+  z-index: 11;
+  pointer-events: none;
+  display: none;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.9);
+  background: rgba(0, 0, 0, 0.5);
+  padding: 5px 16px;
+  border-radius: 4px;
+  letter-spacing: 1px;
+  transition: transform 0.12s ease-out, opacity 0.12s ease-out;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+/* 调试信息 */
+#debugInfo {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  color: #fff;
+  font-size: 13px;
+  line-height: 1.6;
+  z-index: 10;
+  pointer-events: none;
+  background: rgba(0, 0, 0, 0.35);
+  padding: 8px 12px;
+  border-radius: 4px;
+  display: none;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+}
+
+/* 目标方块高亮提示 */
+#blockHighlight {
+  position: fixed;
+  top: 53%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: 13px;
+  z-index: 10;
+  pointer-events: none;
+  display: none;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.9);
+  background: rgba(0,0,0,0.4);
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+
+/* 开始界面 - 磨砂玻璃效果叠加在游戏世界上 */
+#startScreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  cursor: pointer;
+}
+
+.start-title {
+  font-size: 52px;
+  font-weight: 800;
+  color: #fff;
+  text-shadow:
+    0 0 10px rgba(76, 175, 80, 0.9),
+    0 0 30px rgba(76, 175, 80, 0.6),
+    0 0 60px rgba(76, 175, 80, 0.3),
+    2px 2px 0 #1B5E20,
+    0 4px 12px rgba(0,0,0,0.95),
+    0 0 60px rgba(0,0,0,0.7);
+  letter-spacing: 4px;
+  margin-bottom: 8px;
+  position: relative;
+  animation: titlePulse 3s ease-in-out infinite;
+}
+
+.start-subtitle {
+  font-size: 16px;
+  color: #81C784;
+  margin-bottom: 40px;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9), 0 0 20px rgba(0, 0, 0, 0.7);
+}
+
+@keyframes titlePulse {
+  0%, 100% { text-shadow: 0 0 20px rgba(76,175,80,0.5), 3px 3px 0 #2E7D32, 0 4px 8px rgba(0,0,0,0.5); }
+  50% { text-shadow: 0 0 30px rgba(76,175,80,0.7), 3px 3px 0 #2E7D32, 0 4px 12px rgba(0,0,0,0.5); }
+}
+
+.start-hint {
+  font-size: 20px;
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95), 0 0 24px rgba(0, 0, 0, 0.8);
+  animation: hintBlink 2s ease-in-out infinite;
+  margin-bottom: 30px;
+}
+
+@keyframes hintBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.controls-info {
+  background: rgba(0, 0, 0, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 20px 30px;
+  max-width: 500px;
+  text-align: left;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.controls-info h3 {
+  color: #81C784;
+  font-size: 14px;
+  margin-bottom: 12px;
+  text-align: center;
+  letter-spacing: 2px;
+}
+
+.control-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 13px;
+}
+
+.control-row .key {
+  color: #A5D6A7;
+  font-weight: bold;
+  min-width: 80px;
+  text-align: right;
+  margin-right: 12px;
+}
+
+/* ============================================
+   右上角操作说明面板（桌面端常驻）
+   ============================================ */
+#controlsPanel {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 50;
+  display: none;
+  background: rgba(0, 0, 0, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+  padding: 12px 16px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.controls-trigger {
+  display: none;
+}
+
+.controls-body {
+  display: block;
+}
+
+/* 面板内标题 */
+.controls-body::before {
+  content: "操作说明";
+  display: block;
+  color: #81C784;
+  font-size: 13px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 8px;
+  letter-spacing: 2px;
+}
+
+/* 暂停界面 */
+#pauseScreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 90;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+}
+
+#pauseScreen .pause-text {
+  font-size: 36px;
+  color: #fff;
+  margin-bottom: 16px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+#pauseScreen .pause-hint {
+  font-size: 16px;
+  color: rgba(255,255,255,0.7);
+  animation: hintBlink 2s ease-in-out infinite;
+}
+
+/* 加载提示 */
+#loadingBar {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 80;
+  text-align: center;
+  display: none;
+}
+
+#loadingBar .loading-text {
+  color: #81C784;
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+#loadingBar .loading-progress {
+  width: 200px;
+  height: 6px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+#loadingBar .loading-fill {
+  height: 100%;
+  background: #4CAF50;
+  border-radius: 3px;
+  width: 0%;
+  transition: width 0.3s;
+}
+
+/* 响应式适配（仅按宽度判断，避免 pointer:coarse 误伤触屏笔记本） */
+@media (max-width: 768px) {
+  .start-title {
+    font-size: 32px;
+    letter-spacing: 2px;
+  }
+
+  .start-subtitle {
+    font-size: 14px;
+  }
+
+  .controls-info {
+    padding: 14px 18px;
+    margin: 0 16px;
+  }
+
+  .control-row {
+    font-size: 12px;
+  }
+
+  .hotbar-slot {
+    width: 44px;
+    height: 44px;
+  }
+
+  .hotbar-slot .block-preview {
+    width: 30px;
+    height: 30px;
+  }
+
+  .hotbar-slot .slot-key {
+    font-size: 11px;
+    padding: 1px 0 1px;
+  }
+
+  #debugInfo {
+    font-size: 11px;
+  }
+
+  #selectedBlockName {
+    bottom: 62px;
+    font-size: 13px;
+    padding: 4px 12px;
+  }
+
+  /* 隐藏桌面端操作说明 */
+  .desktop-only {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .start-title {
+    font-size: 24px;
+  }
+
+  .hotbar-slot {
+    width: 38px;
+    height: 38px;
+  }
+
+  .hotbar-slot .block-preview {
+    width: 26px;
+    height: 26px;
+  }
+
+  .hotbar-slot .slot-key {
+    font-size: 10px;
+    padding: 1px 0 1px;
+  }
+
+  #hotbar {
+    bottom: 10px;
+  }
+
+  #selectedBlockName {
+    bottom: 54px;
+    font-size: 12px;
+    padding: 3px 10px;
+  }
+}
+
+/* ============================================ */
+/*  移动端触控 UI 样式 */
+/* ============================================ */
+
+#mobileControls {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+  display: none;
+}
+
+/* 虚拟摇杆 */
+#joystickZone {
+  position: absolute;
+  bottom: 130px;
+  left: 24px;
+  width: 110px;
+  height: 110px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  border-radius: 50%;
+  pointer-events: auto;
+  touch-action: none;
+  z-index: 21;
+}
+
+#joystickThumb {
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  background: rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  transition: transform 0.05s ease-out;
+}
+
+/* 操作按钮区 */
+#actionButtons {
+  position: absolute;
+  bottom: 140px;
+  right: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: auto;
+  z-index: 21;
+}
+
+.action-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  color: #fff;
+  font-size: 13px;
+  font-weight: bold;
+  font-family: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  pointer-events: auto;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  transition: background 0.1s, border-color 0.1s;
+}
+
+.action-btn:active {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* 移动端物品栏 */
+#mobileHotbar {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 3px;
+  pointer-events: auto;
+  z-index: 21;
+  background: rgba(0, 0, 0, 0.35);
+  padding: 3px;
+  border-radius: 4px;
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+}
+
+.m-slot {
+  width: 38px;
+  height: 38px;
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: all 0.12s ease-out;
+}
+
+.m-slot.selected {
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.22);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.35);
+  transform: scale(1.08);
+  outline: 1px solid rgba(255, 255, 255, 0.25);
+  outline-offset: -2px;
+}
+
+.m-block-preview {
+  width: 26px;
+  height: 26px;
+  border-radius: 2px;
+  image-rendering: pixelated;
+}
+
+/* 移动端暂停界面适配 */
+@media (max-width: 768px) {
+  #pauseScreen .pause-text {
+    font-size: 28px;
+  }
+
+  #pauseScreen .pause-hint {
+    font-size: 14px;
+  }
+
+  #crosshair {
+    font-size: 18px;
+  }
+
+  #blockHighlight {
+    top: 53%;
+    font-size: 11px;
+  }
+}
