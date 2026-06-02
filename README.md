@@ -18,19 +18,26 @@
 
 ### 游戏界面
 
-![游戏界面](https://github.com/EVEDensity/MineWorld/assets/your-image-link-1)
+![游戏界面](./screenshots/game.png)
 
 ### 方块建造
 
-![方块建造](https://github.com/EVEDensity/MineWorld/assets/your-image-link-2)
+![方块建造](./screenshots/build.png)
 
 ### 机器人 NPC
 
-![机器人 NPC](https://github.com/EVEDensity/MineWorld/assets/your-image-link-3)
+![机器人 NPC](./screenshots/robot.png)
 
 ### Coze 立墙
 
-![Coze 立墙](https://github.com/EVEDensity/MineWorld/assets/your-image-link-4)
+![Coze 立墙](./screenshots/coze.png)
+
+> 📷 **如何添加截图**：
+> 1. 运行游戏：`python -m http.server 5000`
+> 2. 访问 `http://localhost:5000` 启动游戏
+> 3. 截取游戏画面（按 `PrintScreen` 或使用截图工具）
+> 4. 将截图保存到 `screenshots/` 目录，命名为 `game.png`, `build.png`, `robot.png`, `coze.png`
+> 5. 提交并推送：`git add screenshots/ && git commit -m "Add screenshots" && git push`
 
 ## 操作说明
 
