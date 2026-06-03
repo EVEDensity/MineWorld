@@ -138,7 +138,7 @@ projects/
    <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=EVEDensity/MineWorld&type=date&legend=top-left" />
  </picture>
 </a>
-
+https://www.star-history.com/?repos=EVEDensity%2FMineWorld&type=date&legend=top-left
 ## 许可证
 
 MIT License
